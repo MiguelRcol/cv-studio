@@ -34,124 +34,110 @@ export function ResumePreview({
   education,
   experience,
 }: ResumePreviewProps) {
-  const initials = profile.fullName
-    .split(" ")
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0])
-    .join("")
-    .toUpperCase();
+  const savedEducation = education.filter(
+    (item) => item.school || item.degree || item.startDate || item.endDate,
+  );
+  const savedExperience = experience.filter(
+    (item) =>
+      item.company ||
+      item.position ||
+      item.location ||
+      item.startDate ||
+      item.endDate ||
+      item.responsibilities,
+  );
+  const hasContact = Boolean(
+    profile.email || profile.phone || profile.location || profile.website,
+  );
 
   return (
     <aside className="cv-preview-panel" aria-label="Résumé preview">
       <div className="cv-preview-toolbar">
         <div>
-          <span className="cv-eyebrow">Saved preview</span>
-          <p>Your résumé updates when you save a section.</p>
+          <span className="cv-eyebrow">CV preview</span>
+          <p>Saved sections appear here.</p>
         </div>
-        <span className="cv-page-count">A4 · 1 page</span>
       </div>
 
       <article className="resume-sheet">
         <header className="resume-header">
-          <div className="resume-monogram" aria-hidden="true">
-            {initials || "CV"}
-          </div>
           <div className="resume-heading">
             <p className="resume-kicker">Curriculum vitae</p>
             <h1>{profile.fullName || "Your name"}</h1>
             <p className="resume-role">{profile.role || "Your professional title"}</p>
           </div>
-        </header>
 
-        <div className="resume-body">
-          <aside className="resume-sidebar">
-            <section>
-              <h2>Contact</h2>
-              <dl className="resume-contact-list">
+          {hasContact ? (
+            <dl className="resume-contact-list">
+              {profile.email && (
                 <div>
                   <dt>Email</dt>
                   <dd>
-                    {profile.email ? (
-                      <a href={`mailto:${profile.email}`}>{profile.email}</a>
-                    ) : (
-                      "you@example.com"
-                    )}
+                    <a href={`mailto:${profile.email}`}>{profile.email}</a>
                   </dd>
                 </div>
+              )}
+              {profile.phone && (
                 <div>
                   <dt>Phone</dt>
                   <dd>
-                    {profile.phone ? (
-                      <a href={`tel:${profile.phone.replace(/[^+\d]/g, "")}`}>
-                        {profile.phone}
-                      </a>
-                    ) : (
-                      "+1 000 000 0000"
-                    )}
+                    <a href={`tel:${profile.phone.replace(/[^+\d]/g, "")}`}>
+                      {profile.phone}
+                    </a>
                   </dd>
                 </div>
+              )}
+              {profile.location && (
                 <div>
-                  <dt>Based in</dt>
-                  <dd>{profile.location || "Your location"}</dd>
+                  <dt>Location</dt>
+                  <dd>{profile.location}</dd>
                 </div>
-                {profile.website && (
-                  <div>
-                    <dt>Portfolio</dt>
-                    <dd>
-                      <a
-                        href={
-                          profile.website.startsWith("http")
-                            ? profile.website
-                            : `https://${profile.website}`
-                        }
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        {profile.website}
-                      </a>
-                    </dd>
-                  </div>
-                )}
-              </dl>
-            </section>
+              )}
+              {profile.website && (
+                <div>
+                  <dt>Portfolio</dt>
+                  <dd>
+                    <a
+                      href={
+                        /^https?:\/\//i.test(profile.website)
+                          ? profile.website
+                          : `https://${profile.website}`
+                      }
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {profile.website}
+                    </a>
+                  </dd>
+                </div>
+              )}
+            </dl>
+          ) : (
+            <p className="resume-empty resume-contact-empty">
+              Your contact details will appear here.
+            </p>
+          )}
+        </header>
 
-            <section>
-              <h2>Education</h2>
-              <div className="resume-sidebar-stack">
-                {education.map((item) => (
-                  <div className="resume-education-item" key={item.id}>
-                    <p>{item.degree || "Degree or field of study"}</p>
-                    <span>{item.school || "School name"}</span>
-                    <small>
-                      <DateRange start={item.startDate} end={item.endDate} />
-                    </small>
-                  </div>
-                ))}
-              </div>
-            </section>
-          </aside>
+        <div className="resume-content">
+          <section className="resume-profile">
+            <h2>Profile</h2>
+            <p>
+              {profile.summary || "Your professional summary will appear here."}
+            </p>
+          </section>
 
-          <div className="resume-main">
-            <section className="resume-profile">
-              <h2>Profile</h2>
-              <p>
-                {profile.summary ||
-                  "Add a short professional summary to introduce your strengths and point of view."}
-              </p>
-            </section>
-
-            <section className="resume-experience">
-              <h2>Experience</h2>
-              <div className="resume-timeline">
-                {experience.map((item) => (
+          <section className="resume-experience">
+            <h2>Experience</h2>
+            {savedExperience.length ? (
+              <div className="resume-job-list">
+                {savedExperience.map((item) => (
                   <article className="resume-job" key={item.id}>
-                    <div className="resume-job-marker" aria-hidden="true" />
                     <div className="resume-job-heading">
                       <div>
-                        <h3>{item.position || "Position title"}</h3>
+                        <h3>{item.position}</h3>
                         <p>
-                          {item.company || "Company"}
+                          {item.company}
                           {item.location ? ` · ${item.location}` : ""}
                         </p>
                       </div>
@@ -171,8 +157,31 @@ export function ResumePreview({
                   </article>
                 ))}
               </div>
-            </section>
-          </div>
+            ) : (
+              <p className="resume-empty">Saved experience will appear here.</p>
+            )}
+          </section>
+
+          <section className="resume-education">
+            <h2>Education</h2>
+            {savedEducation.length ? (
+              <div className="resume-education-list">
+                {savedEducation.map((item) => (
+                  <article className="resume-education-item" key={item.id}>
+                    <div>
+                      <h3>{item.degree}</h3>
+                      <p>{item.school}</p>
+                    </div>
+                    <small>
+                      <DateRange start={item.startDate} end={item.endDate} />
+                    </small>
+                  </article>
+                ))}
+              </div>
+            ) : (
+              <p className="resume-empty">Saved education will appear here.</p>
+            )}
+          </section>
         </div>
       </article>
     </aside>

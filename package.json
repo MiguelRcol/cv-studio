@@ -2,7 +2,7 @@
   "name": "cv-studio",
   "version": "1.0.0",
   "private": true,
-  "description": "A polished, accessible CV builder with a print-ready résumé preview.",
+  "description": "CV application built with React and TypeScript for The Odin Project.",
   "author": "Miguel Rua",
   "license": "MIT",
   "homepage": "https://miguelrcol.github.io/cv-studio/",

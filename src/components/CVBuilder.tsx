@@ -3,46 +3,34 @@ import { ResumePreview } from "./ResumePreview";
 import type { Education, Experience, Profile, SectionKey } from "./types";
 
 const initialProfile: Profile = {
-  fullName: "Maya Chen",
-  role: "Senior Product Designer",
-  email: "maya.chen@example.com",
-  phone: "+1 415 555 0148",
-  location: "San Francisco, CA",
-  website: "https://mayachen.design",
-  summary:
-    "Product designer with 7+ years of experience turning complex workflows into calm, intuitive products. I pair systems thinking with close collaboration to create experiences that work beautifully for people and businesses.",
+  fullName: "",
+  role: "",
+  email: "",
+  phone: "",
+  location: "",
+  website: "",
+  summary: "",
 };
 
 const initialEducation: Education[] = [
   {
     id: "education-1",
-    school: "Rhode Island School of Design",
-    degree: "BFA, Graphic Design",
-    startDate: "2012-09",
-    endDate: "2016-05",
+    school: "",
+    degree: "",
+    startDate: "",
+    endDate: "",
   },
 ];
 
 const initialExperience: Experience[] = [
   {
     id: "experience-1",
-    company: "Northstar Labs",
-    position: "Senior Product Designer",
-    location: "San Francisco",
-    startDate: "2022-03",
+    company: "",
+    position: "",
+    location: "",
+    startDate: "",
     endDate: "",
-    responsibilities:
-      "Led the end-to-end redesign of the analytics workspace, improving task completion by 34%.\nBuilt a cross-platform design system used by six product squads.\nPartnered with research and engineering to ship accessible workflows for enterprise teams.",
-  },
-  {
-    id: "experience-2",
-    company: "Fieldnote",
-    position: "Product Designer",
-    location: "Remote",
-    startDate: "2018-06",
-    endDate: "2022-02",
-    responsibilities:
-      "Designed collaboration tools from first concept through launch.\nCreated research programs that brought customer feedback into quarterly planning.",
+    responsibilities: "",
   },
 ];
 
@@ -116,6 +104,7 @@ function TextAreaField({
   hint,
   rows = 4,
   maxLength,
+  required = false,
 }: {
   id: string;
   label: string;
@@ -124,18 +113,23 @@ function TextAreaField({
   hint?: string;
   rows?: number;
   maxLength?: number;
+  required?: boolean;
 }) {
   const hintId = hint ? `${id}-hint` : undefined;
 
   return (
     <label className="cv-field cv-field-wide" htmlFor={id}>
-      <span>{label}</span>
+      <span>
+        {label}
+        {required && <em aria-hidden="true">*</em>}
+      </span>
       <textarea
         id={id}
         value={value}
         onChange={(event) => onChange(event.target.value)}
         rows={rows}
         maxLength={maxLength}
+        required={required}
         aria-describedby={hintId}
       />
       {hint && <small id={hintId}>{hint}</small>}
@@ -180,7 +174,6 @@ export function CVBuilder() {
   const [draftEducation, setDraftEducation] = useState(initialEducation);
   const [draftExperience, setDraftExperience] = useState(initialExperience);
   const [editing, setEditing] = useState<SectionKey | null>("profile");
-  const [activeSection, setActiveSection] = useState<SectionKey>("profile");
   const [announcement, setAnnouncement] = useState("");
   const [formError, setFormError] = useState("");
   const [invalidFieldId, setInvalidFieldId] = useState<string | null>(null);
@@ -193,23 +186,11 @@ export function CVBuilder() {
     index: number;
   } | null>(null);
 
-  const completedSections: Record<SectionKey, boolean> = {
-    profile: Boolean(profile.fullName && profile.email && profile.phone),
-    education: education.some(
-      (item) => Boolean(item.school && item.degree && item.startDate && item.endDate),
-    ),
-    experience: experience.some(
-      (item) => Boolean(item.company && item.position && item.startDate),
-    ),
-  };
-  const completedCount = Object.values(completedSections).filter(Boolean).length;
-
   function beginEdit(section: SectionKey) {
     if (section === "profile") setDraftProfile(profile);
     if (section === "education") setDraftEducation(education);
     if (section === "experience") setDraftExperience(experience);
     setEditing(section);
-    setActiveSection(section);
     setFormError("");
     setInvalidFieldId(null);
     setRemovedEducation(null);
@@ -288,14 +269,6 @@ export function CVBuilder() {
     }, 0);
   }
 
-  function jumpTo(section: SectionKey) {
-    setActiveSection(section);
-    document.getElementById(section)?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  }
-
   function updateEducation(id: string, patch: Partial<Education>) {
     if (invalidFieldId?.includes(id)) {
       setInvalidFieldId(null);
@@ -319,11 +292,14 @@ export function CVBuilder() {
   return (
     <main className="cv-app-shell">
       <header className="cv-app-header">
-        <a className="cv-brand" href="#top" aria-label="CV Studio home">
+        <a className="cv-brand" href="#top" aria-label="CV Builder home">
           <span className="cv-brand-mark" aria-hidden="true">
-            C
+            CV
           </span>
-          <span>CV Studio</span>
+          <span className="cv-brand-copy">
+            <strong>CV Builder</strong>
+            <small>The Odin Project</small>
+          </span>
         </a>
 
         <div className="cv-header-actions">
@@ -341,68 +317,24 @@ export function CVBuilder() {
       </header>
 
       <div className="cv-workspace" id="top">
-        <nav className="cv-section-nav" aria-label="CV sections">
-          <div className="cv-nav-intro">
-            <span className="cv-eyebrow">Your progress</span>
-            <strong>{completedCount} of 3 sections</strong>
-            <div
-              className="cv-progress-track"
-              role="progressbar"
-              aria-label="CV completion"
-              aria-valuemin={0}
-              aria-valuemax={3}
-              aria-valuenow={completedCount}
-            >
-              <span style={{ width: `${(completedCount / 3) * 100}%` }} />
-            </div>
-          </div>
-
-          <ol>
-            {(
-              [
-                ["profile", "01", "General"],
-                ["education", "02", "Education"],
-                ["experience", "03", "Experience"],
-              ] as const
-            ).map(([section, number, label]) => (
-              <li key={section}>
-                <button
-                  className={activeSection === section ? "is-active" : ""}
-                  type="button"
-                  onClick={() => jumpTo(section)}
-                  aria-current={activeSection === section ? "step" : undefined}
-                >
-                  <span>{number}</span>
-                  {label}
-                  {completedSections[section] && <b aria-label="Complete">✓</b>}
-                </button>
-              </li>
-            ))}
-          </ol>
-
-          <div className="cv-tip-card">
-            <span aria-hidden="true">✦</span>
-            <p>
-              <strong>A quick tip</strong>
-              Start bullet points with an action and include the outcome when you can.
-            </p>
-          </div>
-        </nav>
-
         <section className="cv-editor" aria-label="CV editor">
           <div className="cv-editor-intro">
-            <span className="cv-eyebrow">Your story, clearly told</span>
-            <h1>Build a résumé that feels like you.</h1>
+            <span className="cv-eyebrow">React practice project</span>
+            <h1>Create your CV</h1>
             <p>
-              Add the essentials, keep the language clear, and we’ll take care of the layout.
+              Fill in one section at a time and save it when you are ready. The preview
+              only shows saved changes.
             </p>
           </div>
 
-          <section className={`cv-form-section ${editing === "profile" ? "is-editing" : ""}`} id="profile">
+          <section
+            className={`cv-form-section ${editing === "profile" ? "is-editing" : ""}`}
+            id="profile"
+          >
             <SectionHeading
               number="01"
               title="General information"
-              description="The essentials people use to know and reach you."
+              description="Your name and the contact details for the top of the CV."
               editing={editing === "profile"}
               onEdit={() => beginEdit("profile")}
             />
@@ -420,7 +352,7 @@ export function CVBuilder() {
                   label="Full name"
                   value={draftProfile.fullName}
                   onChange={(fullName) => setDraftProfile({ ...draftProfile, fullName })}
-                  placeholder="e.g. Maya Chen"
+                  placeholder="e.g. Ana Pérez"
                   required
                   autoComplete="name"
                 />
@@ -429,8 +361,7 @@ export function CVBuilder() {
                   label="Professional title"
                   value={draftProfile.role}
                   onChange={(role) => setDraftProfile({ ...draftProfile, role })}
-                  placeholder="e.g. Product Designer"
-                  required
+                  placeholder="e.g. Front-end Developer"
                   autoComplete="organization-title"
                 />
                 <Field
@@ -484,7 +415,7 @@ export function CVBuilder() {
                     Cancel
                   </button>
                   <button className="cv-primary-button" type="submit">
-                    Save &amp; continue <span aria-hidden="true">→</span>
+                    Save general information <span aria-hidden="true">→</span>
                   </button>
                 </div>
               </form>
@@ -502,11 +433,14 @@ export function CVBuilder() {
             )}
           </section>
 
-          <section className={`cv-form-section ${editing === "education" ? "is-editing" : ""}`} id="education">
+          <section
+            className={`cv-form-section ${editing === "education" ? "is-editing" : ""}`}
+            id="education"
+          >
             <SectionHeading
               number="02"
               title="Education"
-              description="Your studies, training, and qualifications."
+              description="Add your school, course or qualification, and dates."
               editing={editing === "education"}
               onEdit={() => beginEdit("education")}
             />
@@ -654,11 +588,14 @@ export function CVBuilder() {
             )}
           </section>
 
-          <section className={`cv-form-section ${editing === "experience" ? "is-editing" : ""}`} id="experience">
+          <section
+            className={`cv-form-section ${editing === "experience" ? "is-editing" : ""}`}
+            id="experience"
+          >
             <SectionHeading
               number="03"
               title="Practical experience"
-              description="The work, responsibilities, and results that shaped you."
+              description="Add each role, its dates, and the work you did."
               editing={editing === "experience"}
               onEdit={() => beginEdit("experience")}
             />
@@ -748,6 +685,7 @@ export function CVBuilder() {
                           }
                           hint="Put each achievement or responsibility on a new line."
                           rows={5}
+                          required
                         />
                       </div>
                     </fieldset>
@@ -824,7 +762,10 @@ export function CVBuilder() {
           </section>
 
           <p className="cv-editor-footer">
-            Your information stays in this browser session and is never uploaded.
+            Built by{" "}
+            <a href="https://github.com/MiguelRcol">Miguel Rua</a> for{" "}
+            <a href="https://www.theodinproject.com/">The Odin Project</a>. Data stays
+            in this tab and resets when the page is refreshed.
           </p>
         </section>
 
