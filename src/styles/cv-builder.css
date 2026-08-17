@@ -1,0 +1,1273 @@
+:root {
+  --cv-ink: #1a241f;
+  --cv-muted: #66706a;
+  --cv-line: #dcded8;
+  --cv-paper: #fffefa;
+  --cv-canvas: #f4f3ef;
+  --cv-green: #284b3b;
+  --cv-green-dark: #1d382c;
+  --cv-green-soft: #dfe8de;
+  --cv-lime: #d8ee9f;
+  --cv-coral: #f0a58e;
+  --cv-shadow: 0 18px 55px rgba(24, 38, 31, 0.12);
+}
+
+.cv-app-shell {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 31% 4%, rgba(255, 255, 255, 0.92), transparent 31rem),
+    var(--cv-canvas);
+}
+
+.cv-app-header {
+  position: sticky;
+  z-index: 20;
+  top: 0;
+  display: flex;
+  height: 74px;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(40, 55, 47, 0.11);
+  background: rgba(255, 255, 252, 0.9);
+  padding: 0 32px;
+  backdrop-filter: blur(18px);
+}
+
+.cv-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  color: var(--cv-ink);
+  font-size: 15px;
+  font-weight: 720;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+}
+
+.cv-brand-mark {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-radius: 10px 4px 10px 4px;
+  background: var(--cv-green);
+  color: #fff;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 19px;
+  font-style: italic;
+  box-shadow: inset -4px -4px 0 rgba(0, 0, 0, 0.08);
+}
+
+.cv-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.cv-save-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #647068;
+  font-size: 12px;
+  font-weight: 560;
+}
+
+.cv-save-status > span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #71a46f;
+  box-shadow: 0 0 0 4px rgba(113, 164, 111, 0.12);
+}
+
+.cv-save-status.is-editing > span {
+  background: #c57961;
+  box-shadow: 0 0 0 4px rgba(197, 121, 97, 0.12);
+}
+
+.cv-print-button,
+.cv-primary-button,
+.cv-secondary-button,
+.cv-text-button,
+.cv-remove-button,
+.cv-section-nav button {
+  border: 0;
+  cursor: pointer;
+}
+
+.cv-print-button {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 13px;
+  border-radius: 999px;
+  background: var(--cv-green);
+  color: white;
+  padding: 0 19px;
+  font-size: 12px;
+  font-weight: 670;
+  transition: background 160ms ease, transform 160ms ease;
+}
+
+.cv-print-button:hover,
+.cv-primary-button:hover {
+  background: var(--cv-green-dark);
+  transform: translateY(-1px);
+}
+
+.cv-print-button.is-secondary {
+  border: 1px solid #cbd2ca;
+  background: transparent;
+  color: var(--cv-green);
+}
+
+.cv-print-button.is-secondary:hover {
+  border-color: #aeb9af;
+  background: #eef1eb;
+}
+
+.cv-workspace {
+  display: grid;
+  min-height: calc(100vh - 74px);
+  grid-template-columns: 214px minmax(530px, 660px) minmax(600px, 1fr);
+  align-items: stretch;
+}
+
+.cv-section-nav {
+  position: sticky;
+  top: 74px;
+  align-self: start;
+  height: calc(100vh - 74px);
+  border-right: 1px solid rgba(40, 55, 47, 0.1);
+  background: rgba(247, 246, 242, 0.74);
+  padding: 49px 26px 30px;
+}
+
+.cv-eyebrow {
+  color: #748078;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.cv-nav-intro strong {
+  display: block;
+  margin-top: 8px;
+  color: var(--cv-ink);
+  font-size: 13px;
+}
+
+.cv-progress-track {
+  height: 3px;
+  overflow: hidden;
+  margin-top: 13px;
+  border-radius: 999px;
+  background: #dde0da;
+}
+
+.cv-progress-track span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--cv-green);
+}
+
+.cv-section-nav ol {
+  display: grid;
+  gap: 5px;
+  margin: 36px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cv-section-nav button {
+  display: grid;
+  width: 100%;
+  min-height: 46px;
+  grid-template-columns: 27px 1fr auto;
+  align-items: center;
+  border-radius: 9px;
+  background: transparent;
+  color: #68726c;
+  padding: 0 10px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 590;
+  transition: background 160ms ease, color 160ms ease;
+}
+
+.cv-section-nav button > span {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 9px;
+}
+
+.cv-section-nav button b {
+  display: grid;
+  width: 18px;
+  height: 18px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--cv-green-soft);
+  color: var(--cv-green);
+  font-size: 10px;
+}
+
+.cv-section-nav button:hover,
+.cv-section-nav button.is-active {
+  background: #e8ebe5;
+  color: var(--cv-ink);
+}
+
+.cv-tip-card {
+  position: absolute;
+  right: 23px;
+  bottom: 29px;
+  left: 23px;
+  display: flex;
+  gap: 10px;
+  border: 1px solid #d8ddd4;
+  border-radius: 13px;
+  background: rgba(255, 255, 252, 0.68);
+  padding: 14px 13px;
+}
+
+.cv-tip-card > span {
+  color: #c57961;
+  font-size: 13px;
+}
+
+.cv-tip-card p {
+  margin: 0;
+  color: #778079;
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.cv-tip-card strong {
+  display: block;
+  margin-bottom: 3px;
+  color: #465149;
+  font-size: 11.5px;
+}
+
+.cv-editor {
+  padding: 64px clamp(38px, 4.2vw, 70px) 42px;
+}
+
+.cv-editor-intro {
+  max-width: 490px;
+  margin-bottom: 38px;
+}
+
+.cv-editor-intro h1 {
+  max-width: 440px;
+  margin: 14px 0 15px;
+  color: var(--cv-ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(34px, 3.2vw, 48px);
+  font-weight: 500;
+  letter-spacing: -0.048em;
+  line-height: 1.04;
+}
+
+.cv-editor-intro p {
+  max-width: 450px;
+  margin: 0;
+  color: #6d756f;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.cv-form-section {
+  scroll-margin-top: 95px;
+  margin-bottom: 12px;
+  border: 0;
+  border-bottom: 1px solid #dedfd9;
+  border-radius: 0;
+  background: transparent;
+  padding: 24px 3px;
+  transition: background 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.cv-form-section.is-editing {
+  border: 1px solid #cbd3ca;
+  border-color: #cbd3ca;
+  border-radius: 16px;
+  background: rgba(255, 255, 252, 0.94);
+  padding: 24px 23px;
+  box-shadow: 0 13px 36px rgba(44, 57, 49, 0.07);
+}
+
+.cv-section-heading {
+  display: grid;
+  grid-template-columns: 32px 1fr auto;
+  align-items: start;
+}
+
+.cv-section-number {
+  padding-top: 3px;
+  color: #889089;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 9px;
+}
+
+.cv-section-heading h2 {
+  margin: 0;
+  color: #202a24;
+  font-size: 15px;
+  font-weight: 680;
+  letter-spacing: -0.015em;
+}
+
+.cv-section-heading p {
+  margin: 5px 0 0;
+  color: #8a918c;
+  font-size: 11.5px;
+  line-height: 1.45;
+}
+
+.cv-text-button {
+  min-width: 56px;
+  min-height: 40px;
+  border-radius: 999px;
+  background: #e7ece5;
+  color: var(--cv-green);
+  font-size: 12px;
+  font-weight: 680;
+}
+
+.cv-text-button:hover {
+  background: #d9e2d6;
+}
+
+.cv-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 17px 14px;
+  margin-top: 25px;
+}
+
+.cv-field {
+  display: grid;
+  min-width: 0;
+  gap: 7px;
+}
+
+.cv-field > span {
+  color: #4c574f;
+  font-size: 11.5px;
+  font-weight: 650;
+}
+
+.cv-field > span em {
+  margin-left: 3px;
+  color: #bc6b54;
+  font-style: normal;
+}
+
+.cv-field input,
+.cv-field textarea {
+  width: 100%;
+  border: 1px solid #d8dbd5;
+  border-radius: 9px;
+  outline: none;
+  background: #fafaf7;
+  color: #233029;
+  padding: 0 12px;
+  font-size: 13px;
+  transition: border-color 150ms ease, background 150ms ease, box-shadow 150ms ease;
+}
+
+.cv-field input {
+  height: 44px;
+}
+
+.cv-field textarea {
+  min-height: 94px;
+  resize: vertical;
+  padding-top: 11px;
+  line-height: 1.55;
+}
+
+.cv-field input::placeholder,
+.cv-field textarea::placeholder {
+  color: #a8aea9;
+}
+
+.cv-field input:hover,
+.cv-field textarea:hover {
+  border-color: #c5cbc3;
+}
+
+.cv-field input:focus,
+.cv-field textarea:focus {
+  border-color: #547461;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(84, 116, 97, 0.11);
+}
+
+.cv-field small {
+  color: #99a09a;
+  font-size: 10.5px;
+  line-height: 1.45;
+}
+
+.cv-field input[aria-invalid="true"] {
+  border-color: #a94f38;
+  background: #fff9f7;
+  box-shadow: 0 0 0 3px rgba(169, 79, 56, 0.1);
+}
+
+.cv-field .cv-field-error {
+  color: #8d3f2c;
+  font-weight: 590;
+}
+
+.cv-field-wide,
+.cv-form-actions {
+  grid-column: 1 / -1;
+}
+
+.cv-field-spacer {
+  display: block;
+}
+
+.cv-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2px;
+}
+
+.cv-form-actions-split {
+  justify-content: space-between;
+  margin-top: 18px;
+}
+
+.cv-button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.cv-undo-row {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 12px;
+  border-radius: 9px;
+  background: #eef1eb;
+  color: #526058;
+  padding: 6px 8px 6px 13px;
+  font-size: 11.5px;
+}
+
+.cv-undo-row button {
+  min-width: 58px;
+  min-height: 34px;
+  border: 0;
+  border-radius: 999px;
+  background: #fffefa;
+  color: var(--cv-green);
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 680;
+}
+
+.cv-undo-row button:hover {
+  background: #dfe7dc;
+}
+
+.cv-primary-button,
+.cv-secondary-button {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  border-radius: 999px;
+  padding: 0 18px;
+  font-size: 12px;
+  font-weight: 680;
+  transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.cv-primary-button {
+  background: var(--cv-green);
+  color: white;
+}
+
+.cv-secondary-button {
+  border: 1px solid #cfd5cd;
+  background: transparent;
+  color: #45554b;
+}
+
+.cv-secondary-button:hover {
+  border-color: #aebaae;
+  background: #f1f3ed;
+}
+
+.cv-saved-summary,
+.cv-saved-list {
+  margin: 20px 0 0 32px;
+  border-top: 1px solid #e5e6e0;
+  padding-top: 15px;
+}
+
+.cv-saved-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.cv-saved-summary div,
+.cv-saved-list div {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.cv-saved-summary span,
+.cv-saved-list span {
+  overflow-wrap: anywhere;
+  color: #89918b;
+  font-size: 11px;
+}
+
+.cv-saved-summary strong,
+.cv-saved-list strong {
+  overflow-wrap: anywhere;
+  color: #455149;
+  font-size: 12.5px;
+  font-weight: 620;
+}
+
+.cv-saved-list {
+  display: grid;
+  gap: 13px;
+}
+
+.cv-entry-stack {
+  display: grid;
+  gap: 12px;
+  margin-top: 23px;
+}
+
+.cv-entry-card {
+  position: relative;
+  min-width: 0;
+  margin: 0;
+  border: 1px solid #e0e2dc;
+  border-radius: 12px;
+  background: #fbfbf8;
+  padding: 16px;
+}
+
+.cv-entry-card legend {
+  padding: 0 5px;
+  color: #617067;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.cv-entry-card .cv-form-grid {
+  margin-top: 5px;
+}
+
+.cv-remove-button {
+  position: absolute;
+  top: 11px;
+  right: 13px;
+  min-height: 40px;
+  border-radius: 999px;
+  background: transparent;
+  color: #a56352;
+  padding: 0 8px;
+  font-size: 11px;
+  font-weight: 630;
+}
+
+.cv-form-error {
+  margin: 20px 0 0;
+  border-left: 3px solid #a94f38;
+  border-radius: 5px;
+  background: #faece7;
+  color: #7f3826;
+  padding: 11px 13px;
+  font-size: 12px;
+  font-weight: 570;
+  line-height: 1.5;
+}
+
+.cv-remove-button:hover {
+  background: #f7e9e3;
+}
+
+.cv-editor-footer {
+  margin: 25px 0 0;
+  color: #919892;
+  font-size: 11px;
+  text-align: center;
+}
+
+.cv-preview-panel {
+  position: sticky;
+  top: 74px;
+  align-self: start;
+  min-height: calc(100vh - 74px);
+  height: calc(100vh - 74px);
+  overflow: auto;
+  background:
+    radial-gradient(circle at 85% 8%, rgba(191, 219, 170, 0.12), transparent 25rem),
+    #203129;
+  padding: 31px clamp(27px, 3.8vw, 62px) 58px;
+  scrollbar-color: #52635a transparent;
+  scrollbar-width: thin;
+}
+
+.cv-preview-toolbar {
+  display: flex;
+  max-width: 710px;
+  align-items: end;
+  justify-content: space-between;
+  margin: 0 auto 19px;
+}
+
+.cv-preview-toolbar .cv-eyebrow {
+  color: #b6c4bb;
+}
+
+.cv-preview-toolbar p {
+  margin: 5px 0 0;
+  color: #819087;
+  font-size: 10.5px;
+}
+
+.cv-page-count {
+  color: #8e9b93;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.05em;
+}
+
+.resume-sheet {
+  width: min(100%, 710px);
+  min-height: 910px;
+  overflow: hidden;
+  margin: 0 auto;
+  background: var(--cv-paper);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.27);
+  color: #202a24;
+}
+
+.resume-header {
+  display: grid;
+  min-height: 206px;
+  grid-template-columns: 92px 1fr;
+  align-items: center;
+  gap: 27px;
+  background:
+    linear-gradient(112deg, transparent 0 84%, rgba(217, 239, 161, 0.08) 84%),
+    var(--cv-green);
+  padding: 38px 57px;
+  color: white;
+}
+
+.resume-monogram {
+  display: grid;
+  width: 83px;
+  height: 83px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--cv-lime);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 30px;
+  font-style: italic;
+}
+
+.resume-kicker {
+  margin: 0 0 12px;
+  color: #bccdc2;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 8.5px;
+  font-weight: 620;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.resume-heading h1 {
+  overflow-wrap: anywhere;
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 39px;
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+
+.resume-role {
+  margin: 9px 0 0;
+  color: #d1dbd4;
+  font-size: 12px;
+}
+
+.resume-body {
+  display: grid;
+  min-height: 704px;
+  grid-template-columns: 31% 69%;
+}
+
+.resume-sidebar {
+  background: #f0f1e9;
+  padding: 42px 28px 40px 34px;
+}
+
+.resume-sidebar section + section {
+  margin-top: 45px;
+}
+
+.resume-sheet h2 {
+  margin: 0 0 20px;
+  color: #2b3c33;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 9.5px;
+  font-weight: 720;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.resume-contact-list {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+}
+
+.resume-contact-list div {
+  min-width: 0;
+}
+
+.resume-contact-list dt {
+  margin-bottom: 3px;
+  color: #8c958d;
+  font-size: 8.5px;
+  text-transform: uppercase;
+}
+
+.resume-contact-list dd {
+  overflow-wrap: anywhere;
+  margin: 0;
+  color: #3b4840;
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.resume-contact-list a {
+  color: inherit;
+  text-decoration-color: #b4bbb5;
+  text-decoration-thickness: 0.5px;
+  text-underline-offset: 2px;
+}
+
+.resume-contact-list a:hover {
+  color: var(--cv-green);
+}
+
+.resume-sidebar-stack {
+  display: grid;
+  gap: 22px;
+}
+
+.resume-education-item p {
+  margin: 0 0 5px;
+  color: #334138;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.resume-education-item > span,
+.resume-education-item small {
+  display: block;
+  color: #707b73;
+  font-size: 9px;
+  line-height: 1.45;
+}
+
+.resume-education-item small {
+  margin-top: 5px;
+  color: #9aa19b;
+}
+
+.resume-main {
+  padding: 42px 44px 46px;
+}
+
+.resume-profile {
+  border-bottom: 1px solid #e6e6df;
+  padding-bottom: 30px;
+}
+
+.resume-profile p {
+  margin: 0;
+  color: #59635d;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 11px;
+  line-height: 1.72;
+}
+
+.resume-experience {
+  padding-top: 31px;
+}
+
+.resume-timeline {
+  display: grid;
+  gap: 28px;
+}
+
+.resume-job {
+  position: relative;
+  border-left: 1px solid #d5d9d2;
+  padding-left: 20px;
+}
+
+.resume-job-marker {
+  position: absolute;
+  top: 3px;
+  left: -4px;
+  width: 7px;
+  height: 7px;
+  border: 2px solid #fffefa;
+  border-radius: 50%;
+  background: var(--cv-coral);
+  box-shadow: 0 0 0 1px var(--cv-coral);
+}
+
+.resume-job-heading {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.resume-job-heading h3 {
+  overflow-wrap: anywhere;
+  margin: 0;
+  color: #2b3730;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 14px;
+  line-height: 1.25;
+}
+
+.resume-job-heading p {
+  overflow-wrap: anywhere;
+  margin: 4px 0 0;
+  color: #69736d;
+  font-size: 9px;
+}
+
+.resume-job-heading small {
+  flex: none;
+  color: #929b95;
+  font-size: 8.5px;
+  white-space: nowrap;
+}
+
+.resume-job ul {
+  display: grid;
+  gap: 5px;
+  margin: 13px 0 0;
+  padding: 0 0 0 12px;
+  color: #606a64;
+  font-size: 9.5px;
+  line-height: 1.48;
+}
+
+.resume-job li {
+  padding-left: 3px;
+}
+
+.resume-job li::marker {
+  color: #89a08f;
+}
+
+.cv-visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  clip: rect(1px, 1px, 1px, 1px) !important;
+  white-space: nowrap !important;
+  clip-path: inset(50%) !important;
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+a:focus-visible {
+  outline: 3px solid rgba(56, 96, 74, 0.35);
+  outline-offset: 3px;
+}
+
+@media (max-width: 1380px) {
+  .cv-workspace {
+    grid-template-columns: 190px minmax(500px, 590px) minmax(540px, 1fr);
+  }
+
+  .cv-section-nav {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+
+  .cv-editor {
+    padding-right: 36px;
+    padding-left: 36px;
+  }
+
+  .cv-preview-panel {
+    padding-right: 29px;
+    padding-left: 29px;
+  }
+
+  .resume-header {
+    padding-right: 43px;
+    padding-left: 43px;
+  }
+}
+
+@media (max-width: 1120px) {
+  .cv-workspace {
+    grid-template-columns: 175px minmax(480px, 1fr);
+  }
+
+  .cv-preview-panel {
+    position: relative;
+    top: auto;
+    grid-column: 1 / -1;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    padding: 48px max(8vw, 34px) 70px;
+  }
+
+  .resume-sheet {
+    min-height: 910px;
+  }
+}
+
+@media (max-width: 760px) {
+  .cv-app-header {
+    height: 66px;
+    padding: 0 18px;
+  }
+
+  .cv-header-actions {
+    gap: 10px;
+  }
+
+  .cv-save-status {
+    display: none;
+  }
+
+  .cv-print-button {
+    min-height: 40px;
+    padding: 0 15px;
+  }
+
+  .cv-workspace {
+    display: block;
+    min-height: calc(100vh - 66px);
+  }
+
+  .cv-section-nav {
+    position: sticky;
+    z-index: 10;
+    top: 66px;
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow-x: auto;
+    border-right: 0;
+    border-bottom: 1px solid #dcddd8;
+    background: rgba(245, 244, 240, 0.95);
+    padding: 9px 14px;
+    backdrop-filter: blur(14px);
+    scrollbar-width: none;
+  }
+
+  .cv-section-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .cv-nav-intro,
+  .cv-tip-card {
+    display: none;
+  }
+
+  .cv-section-nav ol {
+    display: flex;
+    width: max-content;
+    gap: 4px;
+    margin: 0;
+  }
+
+  .cv-section-nav button {
+    min-width: 126px;
+    min-height: 40px;
+    grid-template-columns: 22px 1fr 18px;
+  }
+
+  .cv-editor {
+    padding: 45px 18px 38px;
+  }
+
+  .cv-editor-intro h1 {
+    font-size: 38px;
+  }
+
+  .cv-form-section {
+    scroll-margin-top: 126px;
+    padding: 21px 2px;
+  }
+
+  .cv-form-section.is-editing {
+    padding: 21px 17px;
+  }
+
+  .cv-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cv-field-wide,
+  .cv-form-actions {
+    grid-column: 1;
+  }
+
+  .cv-field-spacer {
+    display: none;
+  }
+
+  .cv-form-actions-split {
+    align-items: stretch;
+    flex-direction: column-reverse;
+    gap: 10px;
+  }
+
+  .cv-button-group {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cv-primary-button,
+  .cv-secondary-button {
+    min-height: 46px;
+  }
+
+  .cv-preview-panel {
+    padding: 39px 15px 50px;
+  }
+
+  .cv-preview-toolbar {
+    padding: 0 4px;
+  }
+
+  .resume-sheet {
+    min-height: 0;
+  }
+
+  .resume-header {
+    min-height: 170px;
+    grid-template-columns: 62px 1fr;
+    gap: 18px;
+    padding: 30px 24px;
+  }
+
+  .resume-monogram {
+    width: 61px;
+    height: 61px;
+    font-size: 23px;
+  }
+
+  .resume-heading h1 {
+    font-size: clamp(27px, 8.5vw, 37px);
+  }
+
+  .resume-body {
+    display: block;
+    min-height: 0;
+  }
+
+  .resume-sidebar,
+  .resume-main {
+    padding: 31px 27px;
+  }
+
+  .resume-sidebar {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 30px;
+  }
+
+  .resume-sidebar section + section {
+    margin-top: 0;
+  }
+
+  .resume-sheet h2 {
+    font-size: 11px;
+  }
+
+  .resume-contact-list dt {
+    font-size: 10px;
+  }
+
+  .resume-contact-list dd,
+  .resume-education-item > span,
+  .resume-education-item small {
+    font-size: 11px;
+  }
+
+  .resume-education-item p {
+    font-size: 14px;
+  }
+
+  .resume-profile p {
+    font-size: 13px;
+  }
+
+  .resume-job-heading h3 {
+    font-size: 15px;
+  }
+
+  .resume-job-heading p,
+  .resume-job-heading small {
+    font-size: 10px;
+  }
+
+  .resume-job ul {
+    font-size: 11px;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .cv-app-header,
+  .cv-section-nav {
+    background: #fffefa;
+    backdrop-filter: none;
+  }
+
+  .cv-form-section.is-editing {
+    background: #fffefa;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .cv-field input,
+  .cv-field textarea,
+  .cv-entry-card,
+  .cv-form-section.is-editing {
+    border-color: #4d5b52;
+  }
+
+  .cv-section-heading p,
+  .cv-field small,
+  .cv-editor-intro p {
+    color: #4f5b53;
+  }
+}
+
+@media (max-width: 430px) {
+  .cv-brand > span:last-child {
+    display: none;
+  }
+
+  .cv-section-heading {
+    grid-template-columns: 28px 1fr auto;
+  }
+
+  .cv-saved-summary,
+  .cv-saved-list {
+    margin-left: 28px;
+  }
+
+  .cv-saved-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .resume-sidebar {
+    display: block;
+  }
+
+  .resume-sidebar section + section {
+    margin-top: 35px;
+  }
+
+  .resume-job-heading {
+    display: block;
+  }
+
+  .resume-job-heading small {
+    display: block;
+    margin-top: 6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  body {
+    background: white;
+  }
+
+  .cv-app-header,
+  .cv-section-nav,
+  .cv-editor,
+  .cv-preview-toolbar {
+    display: none !important;
+  }
+
+  .cv-app-shell,
+  .cv-workspace,
+  .cv-preview-panel {
+    display: block;
+    min-height: 0;
+    height: auto;
+    background: white;
+    padding: 0;
+  }
+
+  .cv-preview-panel {
+    position: static;
+    overflow: visible;
+  }
+
+  .resume-sheet {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0;
+    box-shadow: none;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}
