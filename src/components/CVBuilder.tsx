@@ -199,8 +199,11 @@ export function CVBuilder() {
 
     window.setTimeout(() => {
       const sectionElement = document.getElementById(section);
+      const reducedMotion = window.matchMedia?.(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
       sectionElement?.scrollIntoView({
-        behavior: "smooth",
+        behavior: reducedMotion ? "auto" : "smooth",
         block: "start",
       });
       sectionElement?.querySelector<HTMLElement>("input, textarea")?.focus();
