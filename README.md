@@ -1,51 +1,34 @@
-# CV Studio
+# CV Application
 
-[![Live demo](https://img.shields.io/badge/Live_demo-284b3b?style=for-the-badge&logo=github)](https://miguelrcol.github.io/cv-studio/)
-[![Deploy to GitHub Pages](https://github.com/MiguelRcol/cv-studio/actions/workflows/deploy.yml/badge.svg)](https://github.com/MiguelRcol/cv-studio/actions/workflows/deploy.yml)
+My solution to [The Odin Project's CV Application assignment](https://www.theodinproject.com/). It lets users enter general, education, and work information, review the saved details as a CV, and return to edit each section.
 
-A calm, responsive CV builder that turns structured career details into a polished, print-ready résumé. Built as a React state-management project for [The Odin Project](https://www.theodinproject.com/).
+[Live demo](https://miguelrcol.github.io/cv-studio/) · [Build status](https://github.com/MiguelRcol/cv-studio/actions/workflows/deploy.yml)
 
-[Open the live application](https://miguelrcol.github.io/cv-studio/)
+![CV Application editor and preview](public/social-preview.jpg)
 
-![CV Studio interface](public/social-preview.png)
+## Features
 
-## Highlights
+- Separate edit and save controls for general information, education, and experience
+- Add, remove, and undo controls for education and work entries
+- Date validation for education and experience ranges
+- A live CV preview that changes only after a section is saved
+- Responsive layouts for desktop and mobile screens
+- Browser print styles for saving the CV as a PDF
+- Labels, keyboard focus styles, semantic HTML, and status announcements
+- Runs entirely in the browser, with no account or backend
 
-- Independent draft and saved state, so unfinished edits never alter the résumé
-- Reusable education and experience entries with add, remove, and undo controls
-- Clear month-range validation with focus management and field-level messages
-- Semantic forms, persistent labels, keyboard focus styles, and polite status updates
-- Responsive editor and preview across desktop, tablet, and mobile layouts
-- A4 print stylesheet for exporting a clean PDF from the browser
-- No account, server, or database required; data remains in the current browser session
+## What I practiced
 
-## Built with
+- Controlled React form fields
+- Passing typed data through props
+- Keeping draft state separate from submitted state
+- Updating arrays without mutating state
+- Conditional rendering for edit and preview modes
+- Testing form interactions with Vitest and Testing Library
 
-- React 19 and TypeScript
-- Vite 8
-- Custom responsive CSS
-- Vitest and Testing Library
-- GitHub Actions and GitHub Pages
+The assignment requires React. I chose TypeScript so I could also practice typing component props and state objects; it does not change the assignment's React concepts.
 
-## Architecture
-
-```text
-src/
-├── components/
-│   ├── CVBuilder.tsx          # Editor state, forms, validation, save/edit flow
-│   ├── ResumePreview.tsx      # Semantic résumé output
-│   └── types.ts               # Shared data models
-├── styles/
-│   ├── global.css             # Reset and global tokens
-│   └── cv-builder.css         # Responsive UI and print presentation
-├── test/setup.ts              # Browser test environment
-├── App.tsx
-└── main.tsx
-```
-
-Each section maintains a draft separately from its saved data. Submitting a form commits only that section, while Cancel restores its last saved values. This keeps the interaction predictable and demonstrates controlled inputs, immutable state updates, props, and conditional rendering.
-
-## Run locally
+## Running locally
 
 ```bash
 git clone https://github.com/MiguelRcol/cv-studio.git
@@ -54,19 +37,23 @@ npm install
 npm run dev
 ```
 
-Vite prints the local URL in the terminal.
+Vite will print the local development URL in the terminal.
 
-## Quality checks
+## Checks
 
 ```bash
 npm run check
 ```
 
-This runs linting, interaction tests, TypeScript validation, and the production build.
+This command runs ESLint, the interaction tests, TypeScript validation, and a production build.
+
+## Current limitation
+
+The CV data lives in React state and resets when the page is refreshed. Local storage would be a useful next improvement.
 
 ## Deployment
 
-Every push to `main` runs the verification suite and publishes the generated `dist/` directory through GitHub Pages.
+Pushes to `main` are checked and deployed to GitHub Pages with GitHub Actions.
 
 ## License
 
